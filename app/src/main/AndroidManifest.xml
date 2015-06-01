@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".TelaDeCadastro"
+            android:name=".Controller.TelaDeCadastro"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TelaDadosCadastrados"
+            android:name=".Controller.TelaDadosCadastrados"
             android:label="@string/title_activity_tela_dados_cadastrados" >
         </activity>
     </application>

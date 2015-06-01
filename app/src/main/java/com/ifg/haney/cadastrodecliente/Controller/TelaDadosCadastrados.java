@@ -1,30 +1,29 @@
-package com.ifg.haney.cadastrodecliente;
+package com.ifg.haney.cadastrodecliente.Controller;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ifg.haney.cadastrodecliente.Model.Cliente;
+import com.ifg.haney.cadastrodecliente.Persist.ClienteDAO;
+import com.ifg.haney.cadastrodecliente.Persist.ClienteDaoSQLite;
+import com.ifg.haney.cadastrodecliente.R;
+
 
 public class TelaDadosCadastrados extends ActionBarActivity {
 
     TextView nome, cpf, rg, endereco, bairro, cidade, uf, nomeDoPai, nomeDaMae, dataNascimento, localNascimento;
-    ObjetoDeTransporte obj;
-
-    private DataBaseHelper helper;
+    Cliente obj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_dados_cadastrados);
-
-        helper = new DataBaseHelper(this);
 
         nome = (TextView) findViewById(R.id.textViewNome);
         cpf = (TextView) findViewById(R.id.textViewCPF);
@@ -44,7 +43,7 @@ public class TelaDadosCadastrados extends ActionBarActivity {
     public void exibirDados() {
 
         Intent i = getIntent();
-        obj = (ObjetoDeTransporte) i.getSerializableExtra(TelaDeCadastro.NOME);
+        obj = (Cliente) i.getSerializableExtra(TelaDeCadastro.NOME);
 
         nome.setText(obj.getNome());
         cpf.setText(obj.getCpf());
@@ -61,27 +60,13 @@ public class TelaDadosCadastrados extends ActionBarActivity {
 
     public void salvarCliente(View v) {
 
-        SQLiteDatabase db = helper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        values.put(DataBaseHelper.NOME , obj.getNome());
-        values.put(DataBaseHelper.CPF, obj.getCpf());
-        values.put(DataBaseHelper.RG, obj.getRg());
-        values.put(DataBaseHelper.ENDERECO, obj.getEndereco());
-        values.put(DataBaseHelper.BAIRRO, obj.getBairro());
-        values.put(DataBaseHelper.CIDADE, obj.getCidade());
-        values.put(DataBaseHelper.UF, obj.getUf());
-        values.put(DataBaseHelper.NOMEPAI, obj.getNomeDoPai());
-        values.put(DataBaseHelper.NOMEMAE, obj.getNomeDaMae());
-        values.put(DataBaseHelper.DATANAS, obj.getDataNascimento());
-        values.put(DataBaseHelper.LOCALNAS, obj.getLocalNascimento());
-
-        long id = db.insert(DataBaseHelper.TABELACLIENTE, null, values);
-
-        if(id != -1 ){
+        ClienteDAO dao = new ClienteDaoSQLite(this);
+        try {
+            obj = dao.salvar(obj);
             Toast.makeText(this, "Cliente salvo com sucesso", Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(this,"Erro na gravação", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
     }
 

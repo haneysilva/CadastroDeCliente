@@ -1,15 +1,15 @@
-package com.ifg.haney.cadastrodecliente;
+package com.ifg.haney.cadastrodecliente.Controller;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import com.ifg.haney.cadastrodecliente.Model.Cliente;
+import com.ifg.haney.cadastrodecliente.R;
 
 
 public class TelaDeCadastro extends ActionBarActivity {
@@ -38,7 +38,7 @@ public class TelaDeCadastro extends ActionBarActivity {
 
     public void enviar (View v) {
 
-        ObjetoDeTransporte obj = new ObjetoDeTransporte();
+        Cliente obj = new Cliente();
 
         obj.setNome(nome.getText().toString());
         obj.setCpf(cpf.getText().toString());

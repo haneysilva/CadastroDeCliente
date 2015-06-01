@@ -1,4 +1,4 @@
-package com.ifg.haney.cadastrodecliente;
+package com.ifg.haney.cadastrodecliente.Persist;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
